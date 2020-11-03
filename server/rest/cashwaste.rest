@@ -1,0 +1,31 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBldHJvdmVuZ2luZWVyQGdtYWlsLmNvbSIsIl9pZCI6IjVmOWQ1MjEyYmVkY2FkMWI2NGVlZTY2ZiIsImV4cCI6MTYwOTQ5ODkwOCwiaWF0IjoxNjA0MzE0OTA4fQ.6ebJvyFEZdojUjVxJ9G0oO92-j5WSr-PIozDk9Z9maA
+
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{token}}
+
+query{
+    cashwastes{
+        _id
+        goal
+        user{
+            email
+        }
+    }
+}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{token}}
+
+mutation CreateCashWaste($goal: String, $user: String, $date: String){
+    createCashWaste(goal: $goal, user: $user, date: $date){
+        _id
+        goal
+    }
+}
+
+{"goal":"Test goal", "user":"5f9d5212bedcad1b64eee66f"}

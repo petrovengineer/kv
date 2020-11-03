@@ -1,0 +1,38 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBldHJvdmVuZ2luZWVyQGdtYWlsLmNvbSIsIl9pZCI6IjVmOWQ1MjEyYmVkY2FkMWI2NGVlZTY2ZiIsImV4cCI6MTYwOTQ5ODkwOCwiaWF0IjoxNjA0MzE0OTA4fQ.6ebJvyFEZdojUjVxJ9G0oO92-j5WSr-PIozDk9Z9maA
+
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{token}}
+
+mutation CreateTranche($amount:Int, $payer: String, $date: Int){
+  createTranche(amount:$amount, payer: $payer, date: $date){
+    _id
+    amount
+    payer{
+      name
+    }
+    date
+  }
+}
+
+
+
+{"amount":2000, "payer":"5fa02a97241c4a11fc076e8a"}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{token}}
+
+query{
+    tranches{
+        amount
+        payer{
+          name
+        }
+        date
+    }
+}
+
