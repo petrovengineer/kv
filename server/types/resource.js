@@ -14,6 +14,10 @@ const ResourceType = new GraphQLObjectType({
     fields: ()=>({
         _id: {type: new GraphQLNonNull(GraphQLString)},
         name: {type: GraphQLString},
+        created: {
+            type: GraphQLString,
+            resolve:  (resource)=>(resource.created.toISOString())
+        },
         tranches: {
             type: GraphQLList(TrancheType),
             resolve: async (resource)=>{

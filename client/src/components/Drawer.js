@@ -5,7 +5,7 @@ import {
 
 const StyledDrawer = styled.div`
     position: fixed;
-    background-color: black;
+    background-color: DARKSLATEBLUE;
     width: 300px;
     height: 100%;
 `
@@ -13,7 +13,7 @@ const StyledDrawer = styled.div`
 const StyledLink = styled(Link)`
     text-decoration: none;
     color: white;
-    font-size: 24px;
+    font-size: 18px;
     cursor: pointer;
     display: block;
     :hover{

@@ -28,6 +28,7 @@ Authorization: Token {{token}}
 
 query{
     tranches{
+        _id
         amount
         payer{
           name
