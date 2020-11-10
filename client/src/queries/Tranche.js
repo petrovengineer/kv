@@ -13,7 +13,7 @@ const GET_TRANCHES = gql`
     }
 `
 const CREATE_TRANCHE = gql`
-    mutation CreateTranche($amount:Int, $payer: String, $date: Int){
+    mutation CreateTranche($amount:Int, $payer: String, $date: String){
         createTranche(amount:$amount, payer: $payer, date: $date){
         _id
         amount

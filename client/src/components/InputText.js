@@ -1,28 +1,10 @@
 import styled from 'styled-components'
+import StyledInputText from './styled/StyledInputText'
 
-const StyledInputText = styled.input`
-    display: inline-block;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: white;
-    font-size: 18px;
-    border: 1px solid gray;
-    border-radius: 0;
-    padding: 7px;
-    :focus{
-        outline: 1px solid MEDIUMSLATEBLUE;
-        /* box-shadow: none; */
-        /* outline: none; */
-        border: 1px solid MEDIUMSLATEBLUE;
-        padding: 6px 7px;
-
-    }
-
-`
-const InputText = ({value, change = ()=>{}})=>{
+const InputText = ({value, change = ()=>{}, placeholder})=>{
     return(
     <>
-        <StyledInputText value={value} onChange={(e)=>{change(e.target.value)}}></StyledInputText>
+        <StyledInputText value={value} placeholder={placeholder} onChange={(e)=>{change(e.target.value)}}></StyledInputText>
     </>
 )}
 

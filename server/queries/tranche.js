@@ -7,7 +7,7 @@ module.exports = {
 		type: new GraphQLList(TrancheType),
 		resolve: async (root, args, req)=>{
             try{
-				const tranches = await Tranche.find({});
+				const tranches = await Tranche.find({}).sort({date:-1});
                 return tranches;
             }
             catch(e){

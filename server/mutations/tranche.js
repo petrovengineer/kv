@@ -7,12 +7,12 @@ module.exports = {
 		type: TrancheType,
 		args:{
         	amount: {type: GraphQLInt},
-        	date: {type: GraphQLInt},
+        	date: {type: GraphQLString},
         	payer: {type: GraphQLString},
         },
         resolve: async (root, {amount = 0, date, payer}, req)=>{
 			const newTranche = new Tranche({
-				amount, date, payer 
+				amount, date: new Date(date), payer 
 			})
 			try{
 				await newTranche.save()

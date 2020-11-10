@@ -5,7 +5,7 @@ Content-Type: application/json
 X-Request-Type: GraphQL
 Authorization: Token {{token}}
 
-mutation CreateTranche($amount:Int, $payer: String, $date: Int){
+mutation CreateTranche($amount:Int, $payer: String, $date: String){
   createTranche(amount:$amount, payer: $payer, date: $date){
     _id
     amount
@@ -18,7 +18,7 @@ mutation CreateTranche($amount:Int, $payer: String, $date: Int){
 
 
 
-{"amount":2000, "payer":"5fa02a97241c4a11fc076e8a"}
+{"amount":2000, "payer":"5fa02a97241c4a11fc076e8a", "date":"2020-11-06T11:43:05.277Z"}
 
 ###
 POST http://localhost:3000/graphql

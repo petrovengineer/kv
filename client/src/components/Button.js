@@ -1,22 +1,13 @@
-import styled from 'styled-components'
+import StyledButton from './styled/StyledButton'
+import load from '../assets/loading.gif'
 
-const StyledButton = styled.button`
-    background-color: DARKSLATEBLUE;
-    border: none;
-    color: white;
-    padding: 8px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-    cursor: pointer;
-    outline: none;
-    :hover{
-        background-color: MEDIUMSLATEBLUE;
-    }
-    :active{
-        border: none;
-    }
-`
+const Button = ({loading, click})=>{
+    return (
+        <StyledButton onClick={click}>
+            {loading?<img src={load} style={{height: '14px', verticalAlign: 'middle'}} alt="loading..."/>:
+            'Создать'}
+        </StyledButton>
+    )
+}
 
-export default StyledButton;
+export default Button
