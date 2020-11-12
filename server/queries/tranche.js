@@ -15,10 +15,14 @@ module.exports = {
 		args:{
 			filter: {type: TrancheFilterInputType}
 		},
-		resolve: async (root, {filter = {}}, req)=>{
+		resolve: async (root, {filter}, req)=>{
             try{
-				const tranches = await Tranche.find(filter).sort({date:-1});
-				console.log("TRANCHES", tranches)
+				const tranches = await Tranche.find(
+					filter?{'resource._id':filter.resource?filter.resource._id:null}:{}
+					// filter.resource && filter.resource._id?
+					// 	{'resource._id':filter.resource._id}
+					// 	:{}
+					).sort({date:-1});
                 return tranches;
             }
             catch(e){

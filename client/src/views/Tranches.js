@@ -3,12 +3,20 @@ import Paper from '../components/styled/Paper'
 import Title from '../components/Title'
 import { useQuery, useMutation } from '@apollo/client'
 import {GET_TRANCHES} from '../queries/Tranche'
-import styled from 'styled-components'
 import TranchAddForm from '../components/TrancheAddForm'
 import {formatTime} from '../usefull'
 import Message from '../components/Message'
+import {useHistory} from 'react-router-dom'
+import Money from '../components/styled/Money'
+import Time from '../components/styled/Time'
+import Payer from '../components/styled/Payer'
+import Resource from '../components/styled/Resource'
+import Link from '../components/styled/Link'
+import Remove from '../components/styled/Remove'
+import Edit from '../components/styled/Edit'
 
 const Tranches = ()=>{
+    const history = useHistory()
     const {loading, error, data} = useQuery(GET_TRANCHES, {
         onError(){showMessage('Ошибка сервера!')}
     })
@@ -21,30 +29,22 @@ const Tranches = ()=>{
             <>
                 <TranchAddForm/>
                 {data.tranches.length===0?'Пока нет ни одного поступления':data.tranches.map((tranche)=>(
-                    <StyledPaper key={tranche._id}>
-                        <span className="time">{formatTime(tranche.date)}</span>
-                        <span className="money">{tranche.amount?tranche.amount+' руб':'Сумма не указана'} </span>
-                        <span >{tranche.resource?tranche.resource.name+' ':null}</span>
-                        <span className="payer">{tranche.payer?tranche.payer.name: 'Контрагент не указан'}</span>
-                    </StyledPaper>
+                    <Paper key={tranche._id}>
+                        <Time>{formatTime(tranche.date)} </Time>
+                            <Money>{tranche.amount?tranche.amount+' руб':'Сумма не указана'} </Money>
+                        <Resource>
+                            {tranche.resource && tranche.resource.name?
+                                <Link onClick={() => {history.push(`/resource/${tranche.resource._id}`)}}>{tranche.resource.name} </Link>
+                                :null}
+                        </Resource>
+                        <Payer>{tranche.payer?tranche.payer.name: 'Контрагент не указан'}</Payer>
+                        <Edit/>
+                        <Remove/>
+                    </Paper>
                 ))}
             </>
         }  
     </>
 )}
-
-const StyledPaper = styled(Paper)`
-font-size: 16px;
-.time{
-    color: blue;
-    margin-right: 10px;
-}
-.money{
-    color: green;
-}
-.payer{
-    color: maroon;
-}
-`
 
 export default Tranches

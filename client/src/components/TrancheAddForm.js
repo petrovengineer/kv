@@ -19,10 +19,14 @@ const TrancheAddForm = ()=>{
     const [payer, setPayer] = useState(null)
     const [resource, setResource] = useState(null)
     const [amount, setAmount] = useState('')
-    const [createTranche, {loading: loadingCreate}] = useMutation(CREATE_TRANCHE, {update(cache, {data: {createTranche}}){
-        const {tranches} = cache.readQuery({query: GET_TRANCHES})
-        cache.writeQuery({query: GET_TRANCHES, data: {tranches: [createTranche, ...tranches]}})
-      }
+
+    const [createTranche, {loading: loadingCreate}] = useMutation(CREATE_TRANCHE, 
+        {
+            refetchQueries:[{query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}}],
+            update(cache, {data: {createTranche}}){
+                const {tranches} = cache.readQuery({query: GET_TRANCHES})
+                cache.writeQuery({query: GET_TRANCHES, data: {tranches: [createTranche, ...tranches]}})
+            },
     })
 
     useEffect(()=>{

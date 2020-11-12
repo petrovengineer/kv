@@ -9,6 +9,8 @@ const Paper = styled.div`
     font-size: 14px;
     animation: 0.3s ${anim};
     margin-bottom: 10px;
+    display: inline-block;
+    margin-right: 10px;
     ${({clickble})=>clickble && css`
         cursor: pointer;
         :hover{

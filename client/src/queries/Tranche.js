@@ -10,8 +10,8 @@ const GET_TRANCHES = gql`
                 name
             }
             payer{
-            _id
-            name
+                _id
+                name
             }
             date
         }
