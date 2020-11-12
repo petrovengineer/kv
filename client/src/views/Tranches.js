@@ -20,12 +20,12 @@ const Tranches = ()=>{
         {loading?'Загрузка...':error?null:
             <>
                 <TranchAddForm/>
-                {data.tranches.map((tranche)=>(
+                {data.tranches.length===0?'Пока нет ни одного поступления':data.tranches.map((tranche)=>(
                     <StyledPaper key={tranche._id}>
                         <span className="time">{formatTime(tranche.date)}</span>
-                        <span className="money">{tranche.amount}руб </span>
-                        <span className="money">{tranche.resource?tranche.resource.name:null}</span>
-                        <span className="payer">{tranche.payer?tranche.payer.name: 'выбрать'}</span>
+                        <span className="money">{tranche.amount?tranche.amount+' руб':'Сумма не указана'} </span>
+                        <span >{tranche.resource?tranche.resource.name+' ':null}</span>
+                        <span className="payer">{tranche.payer?tranche.payer.name: 'Контрагент не указан'}</span>
                     </StyledPaper>
                 ))}
             </>
@@ -40,10 +40,10 @@ font-size: 16px;
     margin-right: 10px;
 }
 .money{
-    color: maroon;
+    color: green;
 }
 .payer{
-    color: green;
+    color: maroon;
 }
 `
 

@@ -43,13 +43,13 @@ const Resources = ()=>{
       {message?<Message message={message} error close={()=>{showMessage(false)}}/>:null}
       {loading?'Загрузка...':error?null:
           <>
-            <div style={{marginBottom: '20px'}}>
+            <div style={{marginBottom: '20px', display: 'flex'}}>
               <InputText value={name} change={setName}/>
-              <Button loading={createLoading} click={createResourceHandle}>
+              <Button loading={createLoading} onClick={createResourceHandle}>
                 Создать
               </Button>
             </div>
-            {data.resources.map((resource)=>(
+            {data.resources.length===0?'Пока нет ни одного ресурса  ':data.resources.map((resource)=>(
               <Paper clickble key={resource._id} onClick={() => {history.push(`/resource/${resource._id}`)}}>
                   {resource.name}
               </Paper>)

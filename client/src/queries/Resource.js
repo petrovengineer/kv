@@ -25,35 +25,8 @@ const GET_RESOURCE = gql`
     resource(_id: $_id){
       _id
       name
+      amount
       created
-      tranches{
-        amount
-        date
-        payer{
-          name
-        }
-      }
-      waste{
-        date
-        user{
-          email
-        }
-        cashback
-        moneyback
-        goal
-        amount
-      }
-      cashWaste{
-        date
-        user{
-          email
-        }
-        goal
-        amount
-      }
-      creator{
-        email
-      }
     }
   }
 `

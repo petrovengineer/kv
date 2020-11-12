@@ -1,4 +1,4 @@
-const {GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt} = require('graphql')
+const {GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt, GraphQLInputObjectType} = require('graphql')
 
 const TrancheType = new GraphQLObjectType({
     name: 'TrancheType',
@@ -34,4 +34,12 @@ const TranchePayerType = new GraphQLObjectType({
     })
 })
 
-module.exports = {TrancheType}
+const TrancheResourceInputType = new GraphQLInputObjectType({
+    name: 'TrancheResourceInputType',
+    fields: ()=>({
+        _id: {type: GraphQLString},
+        name: {type: GraphQLString}
+    })
+})
+
+module.exports = {TrancheType, TrancheResourceInputType}

@@ -1,14 +1,8 @@
-const {TrancheType} = require('../types/tranche')
+const {TrancheType, TrancheResourceInputType} = require('../types/tranche')
 const {GraphQLString, GraphQLInt, GraphQLInputObjectType} = require('graphql')
 const Tranche = require('mongoose').model('Tranche')
 
-const TrancheResourceInputType = new GraphQLInputObjectType({
-    name: 'TrancheResourceInputType',
-    fields: ()=>({
-        _id: {type: GraphQLString},
-        name: {type: GraphQLString}
-    })
-})
+
 
 const TranchePayerInputType = new GraphQLInputObjectType({
     name: 'TranchePayerInputType',

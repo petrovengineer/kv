@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client'
 
 const GET_TRANCHES = gql`
-    query{
-        tranches{
+    query GetTranches($filter: TrancheFilterInputType){
+        tranches(filter: $filter){
             _id
             amount
             resource{
