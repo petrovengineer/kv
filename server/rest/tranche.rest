@@ -1,14 +1,18 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBldHJvdmVuZ2luZWVyQGdtYWlsLmNvbSIsIl9pZCI6IjVmOWQ1MjEyYmVkY2FkMWI2NGVlZTY2ZiIsImV4cCI6MTYwOTQ5ODkwOCwiaWF0IjoxNjA0MzE0OTA4fQ.6ebJvyFEZdojUjVxJ9G0oO92-j5WSr-PIozDk9Z9maA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBldHJvdmVuZ2luZWVyQGdtYWlsLmNvbSIsIl9pZCI6IjVmOWQ1MjEyYmVkY2FkMWI2NGVlZTY2ZiIsImV4cCI6MTYxMDM1MzA0OCwiaWF0IjoxNjA1MTY5MDQ4fQ.rjzYch8G2RwMDtI0mtwIkoBGDmdXXdK2oobvUXVbEPU
 
 POST http://localhost:3000/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
 Authorization: Token {{token}}
 
-mutation CreateTranche($amount:Int, $payer: String, $date: String){
-  createTranche(amount:$amount, payer: $payer, date: $date){
+mutation CreateTranche($amount:Int, $payer: String, $date: String, $resource: TrancheResourceInputType){
+  createTranche(amount:$amount, payer: $payer, date: $date, resource: $resource){
     _id
     amount
+    resource{
+      _id
+      name
+    }
     payer{
       name
     }
@@ -18,7 +22,7 @@ mutation CreateTranche($amount:Int, $payer: String, $date: String){
 
 
 
-{"amount":2000, "payer":"5fa02a97241c4a11fc076e8a", "date":"2020-11-06T11:43:05.277Z"}
+{"amount":2000, "payer":"5fa02a97241c4a11fc076e8a", "date":"2020-11-06T11:43:05.277Z", "resource":{"_id":"5fa548aac49a0303a0f937e8", "name":"123"}}
 
 ###
 POST http://localhost:3000/graphql

@@ -38,14 +38,12 @@ const TrancheAddForm = ()=>{
     }, [resourcesData])
 
     const handleChangePayer = (payer)=>{
-        setPayer(payer.value)
+        setPayer({_id:payer.value, name: payer.label})
     }
     const handleChangeResource = (resource)=>{
-        console.log("res", resource.value)
-        setResource(resource.value)
+        setResource({_id:resource.value, name: resource.label})
     }
     const handleCreateTranche = ()=>{
-        console.log({ amount: Number.parseInt(amount), payer,resource, date:startDate.toISOString()})
         createTranche({variables:{ amount: Number.parseInt(amount), payer, resource, date:startDate.toISOString()}})
     }
 
@@ -62,12 +60,12 @@ const TrancheAddForm = ()=>{
                 change = {amount=>setAmount(amount)}
                 value = {amount}
             />
-            <StyledDropdown 
+            <Dropdown 
                 options={options} 
                 onChange={handleChangePayer}
                 placeholder="Контрагент"
             />
-            <StyledDropdown 
+            <Dropdown 
                 options={resourceOptions} 
                 onChange={handleChangeResource}
                 placeholder="Ресурс"
@@ -76,10 +74,5 @@ const TrancheAddForm = ()=>{
         </div>
     )
 }
-
-const StyledDropdown = styled(Dropdown)`
-    font-size: 14px;
-    font-family: 'Arial';
-`
 
 export default TrancheAddForm

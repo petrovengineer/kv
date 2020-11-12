@@ -7,8 +7,9 @@ display: inline-block;
 background: white;
 font-size: 14px;
 border: 1px solid gray;
+/* border: none; */
 border-radius: 0;
-padding: 7px;
+padding: 8px;
 :focus{
     outline: 1px solid MEDIUMSLATEBLUE;
     /* box-shadow: none; */

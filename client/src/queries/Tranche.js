@@ -6,9 +6,11 @@ const GET_TRANCHES = gql`
             _id
             amount
             resource{
+                _id
                 name
             }
             payer{
+            _id
             name
             }
             date
@@ -16,14 +18,16 @@ const GET_TRANCHES = gql`
     }
 `
 const CREATE_TRANCHE = gql`
-    mutation CreateTranche($amount:Int, $payer: String, $resource: String, $date: String){
+    mutation CreateTranche($amount:Int, $payer: TranchePayerInputType, $resource: TrancheResourceInputType, $date: String){
         createTranche(amount:$amount, payer: $payer, resource: $resource, date: $date){
         _id
         amount
         resource{
+            _id
             name
         }
         payer{
+            _id
             name
         }
         date

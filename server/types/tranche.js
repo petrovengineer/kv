@@ -1,8 +1,4 @@
 const {GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt} = require('graphql')
-const { PayerType } = require('./payer')
-const { ResourceType } = require('./resource')
-const Payer = require('mongoose').model('Payer')
-const Resource = require('mongoose').model('Resource')
 
 const TrancheType = new GraphQLObjectType({
     name: 'TrancheType',
@@ -10,21 +6,31 @@ const TrancheType = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLString)},
         amount: {type: GraphQLString},
         payer: {
-            type: PayerType,
-            resolve: async (tranch)=>{
-                return await Payer.findOne({_id: tranch.payer})
-            }
+            type: TranchePayerType,
         },
         resource: {
-            type: ResourceType,
-            resolve: async (tranch)=>{
-                return await Resource.findOne({_id: tranch.resource})
-            }
+            type: TrancheResourceType,
         },
         date: {
             type: GraphQLString,
             resolve: (tranche)=>(tranche.date.toISOString())
         }
+    })
+})
+
+const TrancheResourceType = new GraphQLObjectType({
+    name: 'TrancheResourceType',
+    fields: ()=>({
+        _id: {type: GraphQLString},
+        name: {type: GraphQLString}
+    })
+})
+
+const TranchePayerType = new GraphQLObjectType({
+    name: 'TranchePayerType',
+    fields: ()=>({
+        _id: {type: GraphQLString},
+        name: {type: GraphQLString}
     })
 })
 
