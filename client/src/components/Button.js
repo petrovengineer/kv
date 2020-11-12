@@ -1,11 +1,10 @@
 import StyledButton from './styled/StyledButton'
 import load from '../assets/loading.gif'
 
-const Button = ({loading, click})=>{
+const Button = ({loading, onClick, children})=>{
     return (
-        <StyledButton onClick={click}>
-            {loading?<img src={load} style={{height: '14px', verticalAlign: 'middle'}} alt="loading..."/>:
-            'Создать'}
+        <StyledButton onClick={onClick}>
+            {loading?<img src={load} style={{height: '14px', verticalAlign: 'middle'}} alt="loading..."/>:children}
         </StyledButton>
     )
 }

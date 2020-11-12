@@ -5,6 +5,7 @@ query GetResources {
   resources {
       _id
       name
+      amount
   }
 }
 `;
@@ -14,6 +15,7 @@ mutation Create($name:String){
   createResource(name:$name){
     _id
     name
+    amount
   }
 }
 `

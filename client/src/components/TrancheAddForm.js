@@ -7,31 +7,46 @@ import Dropdown from 'react-dropdown'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import {GET_PAYERS} from '../queries/Payer'
+import {GET_RESOURCES} from '../queries/Resource'
 import {CREATE_TRANCHE, GET_TRANCHES} from '../queries/Tranche'
 
 const TrancheAddForm = ()=>{
     const [startDate, setStartDate] = useState(new Date())
     const [options, setOptions] = useState([])
+    const [resourceOptions, setResourceOptions] = useState([])
     const {loading, error, data} = useQuery(GET_PAYERS)
+    const {loading: resourcesLoading, error: resourcesError, data: resourcesData} = useQuery(GET_RESOURCES)
     const [payer, setPayer] = useState(null)
+    const [resource, setResource] = useState(null)
     const [amount, setAmount] = useState('')
-    const [createTranche] = useMutation(CREATE_TRANCHE, {update(cache, {data: {createTranche}}){
+    const [createTranche, {loading: loadingCreate}] = useMutation(CREATE_TRANCHE, {update(cache, {data: {createTranche}}){
         const {tranches} = cache.readQuery({query: GET_TRANCHES})
         cache.writeQuery({query: GET_TRANCHES, data: {tranches: [createTranche, ...tranches]}})
       }
     })
+
     useEffect(()=>{
         if(!loading){
             setOptions([...data.payers.map(p=>({value:p._id, label:p.name}))]);
         }
     }, [data])
+
+    useEffect(()=>{
+        if(!resourcesLoading){
+            setResourceOptions([...resourcesData.resources.map(r=>({value:r._id, label:r.name}))]);
+        }
+    }, [resourcesData])
+
     const handleChangePayer = (payer)=>{
         setPayer(payer.value)
     }
-
+    const handleChangeResource = (resource)=>{
+        console.log("res", resource.value)
+        setResource(resource.value)
+    }
     const handleCreateTranche = ()=>{
-        console.log({ amount: Number.parseInt(amount), payer, date:startDate.toISOString()})
-        createTranche({variables:{ amount: Number.parseInt(amount), payer, date:startDate.toISOString()}})
+        console.log({ amount: Number.parseInt(amount), payer,resource, date:startDate.toISOString()})
+        createTranche({variables:{ amount: Number.parseInt(amount), payer, resource, date:startDate.toISOString()}})
     }
 
     return (
@@ -52,7 +67,12 @@ const TrancheAddForm = ()=>{
                 onChange={handleChangePayer}
                 placeholder="Контрагент"
             />
-            <Button onClick={handleCreateTranche}>Добавить</Button>
+            <StyledDropdown 
+                options={resourceOptions} 
+                onChange={handleChangeResource}
+                placeholder="Ресурс"
+            />
+            <Button onClick={handleCreateTranche} loading={loadingCreate}>Создать</Button>
         </div>
     )
 }

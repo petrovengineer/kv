@@ -18,24 +18,25 @@ const ResourceType = new GraphQLObjectType({
             type: GraphQLString,
             resolve:  (resource)=>(resource.created.toISOString())
         },
-        tranches: {
-            type: GraphQLList(TrancheType),
-            resolve: async (resource)=>{
-                return await Tranche.find({_id: resource.tranches})
-            }
-        },
-        waste: {
-            type: GraphQLList(WasteType),
-            resolve: async (resource)=>{
-                return await Waste.find({_id: resource.waste})
-            }
-        },
-        cashWaste:{
-            type: GraphQLList(CashWasteType),
-            resolve: async (resource)=>{
-                return await CashWaste.find({_id: resource.cashWaste})
-            }
-        },
+        amount: {type: GraphQLString},
+        // tranches: {
+        //     type: GraphQLList(TrancheType),
+        //     resolve: async (resource)=>{
+        //         return await Tranche.find({_id: resource.tranches})
+        //     }
+        // },
+        // waste: {
+        //     type: GraphQLList(WasteType),
+        //     resolve: async (resource)=>{
+        //         return await Waste.find({_id: resource.waste})
+        //     }
+        // },
+        // cashWaste:{
+        //     type: GraphQLList(CashWasteType),
+        //     resolve: async (resource)=>{
+        //         return await CashWaste.find({_id: resource.cashWaste})
+        //     }
+        // },
         creator: {
             type: UserType,
             resolve: async (resource)=>{

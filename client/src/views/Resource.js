@@ -14,6 +14,7 @@ const Resource = ({match})=>{
                     {data.resource.tranches.map((tranche)=>(
                         <span>{tranche.amount}</span>
                     ))}
+                    
                 </>
             }
         </>

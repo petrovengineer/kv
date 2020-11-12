@@ -24,6 +24,7 @@ const Tranches = ()=>{
                     <StyledPaper key={tranche._id}>
                         <span className="time">{formatTime(tranche.date)}</span>
                         <span className="money">{tranche.amount}руб </span>
+                        <span className="money">{tranche.resource?tranche.resource.name:null}</span>
                         <span className="payer">{tranche.payer?tranche.payer.name: 'выбрать'}</span>
                     </StyledPaper>
                 ))}
