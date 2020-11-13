@@ -3,7 +3,7 @@
 POST http://localhost:3000/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
-Authorization: Token {{token}}
+Authorization: Token {{$dotenv TOKEN}}
 
 mutation CreateTranche($amount:Int, $payer: String, $date: String, $resource: TrancheResourceInputType){
   createTranche(amount:$amount, payer: $payer, date: $date, resource: $resource){
@@ -20,15 +20,25 @@ mutation CreateTranche($amount:Int, $payer: String, $date: String, $resource: Tr
   }
 }
 
-
-
-{"amount":2000, "payer":"5fa02a97241c4a11fc076e8a", "date":"2020-11-06T11:43:05.277Z", "resource":{"_id":"5fa548aac49a0303a0f937e8", "name":"123"}}
+{"amount":2000, "date":"2020-11-06T11:43:05.277Z", "resource":{"_id":"5fa548aac49a0303a0f937e8", "name":"123"}}
 
 ###
 POST http://localhost:3000/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
-Authorization: Token {{token}}
+Authorization: Token {{$dotenv TOKEN}}
+
+mutation RemoveTranche($_id: String){
+  removeTranche(_id: $_id)
+}
+
+{"_id":"5fad7febdfef541e24f7490c"}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{$dotenv TOKEN}}
 
 query{
     tranches{

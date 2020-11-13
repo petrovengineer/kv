@@ -3,7 +3,7 @@
 POST http://localhost:3000/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
-Authorization: Token {{token}}
+Authorization: {{$dotenv TOKEN}}
 
 query GetUser($_id:String){
   user(_id:$_id){

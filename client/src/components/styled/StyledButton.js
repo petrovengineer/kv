@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
-    background-color: DARKSLATEBLUE;
+    background-color: ${(props)=>(props.danger?'#FF5733':props.success?'limegreen':'DARKSLATEBLUE')};
     border: none;
     color: white;
     padding: 8px;
@@ -11,8 +11,9 @@ const StyledButton = styled.button`
     font-size: 14px;
     cursor: pointer;
     outline: none;
+    margin-right: 10px;
     :hover{
-        background-color: MEDIUMSLATEBLUE;
+        background-color: ${(props)=>(props.danger?'SALMON':props.success?'limegreen':'MEDIUMSLATEBLUE')};
     }
     :active{
         border: none;

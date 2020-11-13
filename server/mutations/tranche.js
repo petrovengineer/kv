@@ -1,16 +1,6 @@
-const {TrancheType, TrancheResourceInputType} = require('../types/tranche')
-const {GraphQLString, GraphQLInt, GraphQLInputObjectType} = require('graphql')
+const {TrancheType, TrancheResourceInputType, TranchePayerInputType} = require('../types/tranche')
+const {GraphQLString, GraphQLInt, GraphQLBoolean} = require('graphql')
 const Tranche = require('mongoose').model('Tranche')
-
-
-
-const TranchePayerInputType = new GraphQLInputObjectType({
-    name: 'TranchePayerInputType',
-    fields: ()=>({
-        _id: {type: GraphQLString},
-        name: {type: GraphQLString}
-    })
-})
 
 module.exports = {
     createTranche:{
@@ -22,18 +12,30 @@ module.exports = {
 			resource: {type: TrancheResourceInputType}
         },
         resolve: async (root, {amount = 0, date, payer, resource}, req)=>{
-			console.log("DEBUG", resource)
 			const newTranche = new Tranche({
 				amount, date: new Date(date), payer, resource
 			})
 			try{
-				await newTranche.save()
-				return newTranche;
+				return await newTranche.save()
 			}
 			catch(e){
 				throw new Error("Error write to DB");
 			}
         }
 	},
+	removeTranche:{
+		type: GraphQLBoolean,
+		args:{
+			_id: {type: GraphQLString}
+		},
+		resolve: async (_, {_id})=>{
+			try{
+				return await Tranche.findByIdAndDelete(_id)?true:false
+  			}
+			catch(e){
+				console.log(e)
+			}		
+		}
+	}
 }
 

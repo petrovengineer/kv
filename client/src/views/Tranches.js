@@ -14,9 +14,11 @@ import Resource from '../components/styled/Resource'
 import Link from '../components/styled/Link'
 import Remove from '../components/styled/Remove'
 import Edit from '../components/styled/Edit'
+import Modal from '../components/Modal'
 
 const Tranches = ()=>{
     const history = useHistory()
+    const [modal, setModal] = useState(null)
     const {loading, error, data} = useQuery(GET_TRANCHES, {
         onError(){showMessage('Ошибка сервера!')}
     })
@@ -27,6 +29,13 @@ const Tranches = ()=>{
         {message?<Message message={message} error close={()=>{showMessage(false)}}/>:null}
         {loading?'Загрузка...':error?null:
             <>
+                {modal && <Modal 
+                            onClose={()=>{setModal(null)}} 
+                            onCancel={()=>{setModal(null)}}
+                            onDelete={()=>{}}
+                            >
+                    {modal}
+                </Modal>}
                 <TranchAddForm/>
                 {data.tranches.length===0?'Пока нет ни одного поступления':data.tranches.map((tranche)=>(
                     <Paper key={tranche._id}>
@@ -39,7 +48,7 @@ const Tranches = ()=>{
                         </Resource>
                         <Payer>{tranche.payer?tranche.payer.name: 'Контрагент не указан'}</Payer>
                         <Edit/>
-                        <Remove/>
+                        <Remove onClick={()=>{setModal('Вы действительно хотите удалить?')}}/>
                     </Paper>
                 ))}
             </>

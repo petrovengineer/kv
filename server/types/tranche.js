@@ -42,4 +42,12 @@ const TrancheResourceInputType = new GraphQLInputObjectType({
     })
 })
 
-module.exports = {TrancheType, TrancheResourceInputType}
+const TranchePayerInputType = new GraphQLInputObjectType({
+    name: 'TranchePayerInputType',
+    fields: ()=>({
+        _id: {type: GraphQLString},
+        name: {type: GraphQLString}
+    })
+})
+
+module.exports = {TrancheType, TrancheResourceInputType, TranchePayerInputType}
