@@ -4,7 +4,7 @@ const UserType = new GraphQLObjectType({
     name:'UserType',
     fields:()=>({
         _id: {type: new GraphQLNonNull(GraphQLString)},
-		email: {type: GraphQLString},
+        email: {type: GraphQLString},
 		scopes: {type: GraphQLList(ScopesType)},
         computedScopes: {type: GraphQLList(ComputedScopesType)},
     })

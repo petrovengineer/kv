@@ -28,8 +28,31 @@ Content-Type: application/json
 X-Request-Type: GraphQL
 Authorization: Token {{$dotenv TOKEN}}
 
+mutation UpdateTranche($_id: String, $amount:Int, $payer: TranchePayerInputType, $date: String, $resource: TrancheResourceInputType){
+  updateTranche(_id: $_id, amount:$amount, payer: $payer, date: $date, resource: $resource){
+    _id
+    amount
+    resource{
+      _id
+      name
+    }
+    payer{
+      name
+    }
+    date
+  }
+}
+
+{"_id":"5fb6ec080a064e1d040f5884","amount":5000, "resource":{"_id":"5fad2935e7e2ad0be0e2eb92", "name":"Вентиляция шкафов"}}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{$dotenv TOKEN}}
+
 mutation RemoveTranche($_id: String){
-  removeTranche(_id: $_id)
+  deleteTranche(_id: $_id)
 }
 
 {"_id":"5fad7febdfef541e24f7490c"}

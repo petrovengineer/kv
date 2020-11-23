@@ -3,11 +3,11 @@
 POST http://localhost:3000/graphql
 Content-Type: application/json
 X-Request-Type: GraphQL
-Authorization: {{$dotenv TOKEN}}
+Authorization: Token {{$dotenv TOKEN}}
 
 query GetUser($_id:String){
   user(_id:$_id){
-      _id
+    _id
     email
   }
 }
@@ -27,4 +27,21 @@ mutation Login($email: String!, $password: String!){
   }
 }
 
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
 {"email": "petrovengineer@gmail.com", "password": "1212"}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-Request-Type: GraphQL
+Authorization: Token {{$dotenv TOKEN}}
+
+query {
+  auth{
+    _id
+    email
+  }
+}

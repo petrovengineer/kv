@@ -56,10 +56,19 @@ const Schema = new GraphQLSchema({
     mutation: MutationRootType
 })
 
+app.post('/login', async (req, res)=>{
+    const {email, password} = req.body;
+    const User = require('mongoose').model('User')
+    let user = await User.findOne({email});
+    console.log("USER",user)
+    if(!user){return res.sendStatus(401)}
+    if(!user.validatePassword(password)){return res.sendStatus(401)}
+    return res.send(user.toAuthJSON());
+})
 
 app.use('/graphql', 
-    auth.optional,
-    // (req,res, next)=>{console.log("REQ ",req); next();},
+    auth.required,
+    (req,res, next)=>{console.log("REQ ",req.headers); next();},
     graphqlHTTP({
       schema: Schema,
       graphiql: true,

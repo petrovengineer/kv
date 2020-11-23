@@ -23,7 +23,30 @@ module.exports = {
 			}
         }
 	},
-	removeTranche:{
+	updateTranche:{
+		type: TrancheType,
+		args:{
+			_id:{type: GraphQLString},
+        	amount: {type: GraphQLInt},
+        	date: {type: GraphQLString},
+			payer: {type: TranchePayerInputType},
+			resource: {type: TrancheResourceInputType}
+        },
+        resolve: async (root, args, req)=>{
+			const {_id} = args;
+			const tranche = await Tranche.findOne({_id});
+			Object.keys(args).map(key=>{
+				tranche[key] = args[key]
+			})
+			try{
+				return await tranche.save()
+			}
+			catch(e){
+				throw new Error("Error write to DB");
+			}
+        }
+	},
+	deleteTranche:{
 		type: GraphQLBoolean,
 		args:{
 			_id: {type: GraphQLString}

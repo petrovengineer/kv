@@ -1,7 +1,8 @@
-import { fadeIn } from 'react-animations'
+import { fadeIn, fadeOut } from 'react-animations'
 import styled ,{keyframes, css} from 'styled-components'
 
 const anim = keyframes`${fadeIn}`
+const animFadeOut = keyframes`${fadeOut}`
 
 const Modal = styled.div`
     /* display: none;  */
@@ -18,20 +19,22 @@ const Modal = styled.div`
     justify-content: center;
     align-items: center;
     /* animation: 0.3s ${anim}; */
+    /* animation: ${props=>props.out?css`1s ${animFadeOut}`:null}; */
     .content{
         background-color: #fefefe;
         padding: 20px;
         border: 1px solid #888;
-        animation: 0.3s ${anim};
+        border-radius: .25rem;
+        /* animation: 0.3s ${anim}; */
     }
-    .close {
+    .close-icon {
         color: #aaa;
         float: right;
         font-size: 28px;
         font-weight: bold;
     }
-    .close:hover,
-    .close:focus {
+    .close-icon:hover,
+    .close-icon:focus {
         color: black;
         text-decoration: none;
         cursor: pointer;

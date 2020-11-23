@@ -34,4 +34,28 @@ const CREATE_TRANCHE = gql`
         }
     }
 `
-export {GET_TRANCHES, CREATE_TRANCHE}
+
+const UPDATE_TRANCHE = gql`
+mutation UpdateTranche($_id: String, $amount:Int, $payer: TranchePayerInputType, $date: String, $resource: TrancheResourceInputType){
+    updateTranche(_id: $_id, amount:$amount, payer: $payer, date: $date, resource: $resource){
+      _id
+      amount
+      resource{
+        _id
+        name
+      }
+      payer{
+        name
+      }
+      date
+    }
+  }
+`
+
+const DELETE_TRANCHE = gql`
+    mutation DeleteTranche($_id: String){
+        deleteTranche(_id: $_id)
+    }
+`
+
+export {GET_TRANCHES, CREATE_TRANCHE, DELETE_TRANCHE, UPDATE_TRANCHE}

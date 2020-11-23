@@ -1,59 +1,39 @@
 import {useState} from 'react'
-import Paper from '../components/styled/Paper'
-import Title from '../components/Title'
-import { useQuery, useMutation } from '@apollo/client'
-import {GET_TRANCHES} from '../queries/Tranche'
-import TranchAddForm from '../components/TrancheAddForm'
-import {formatTime} from '../usefull'
+import Header from '../components/styled/Header'
+import Title from '../components/styled/Title'
+import CreateForm from '../components/Tranche/CreateForm'
 import Message from '../components/Message'
-import {useHistory} from 'react-router-dom'
-import Money from '../components/styled/Money'
-import Time from '../components/styled/Time'
-import Payer from '../components/styled/Payer'
-import Resource from '../components/styled/Resource'
-import Link from '../components/styled/Link'
-import Remove from '../components/styled/Remove'
-import Edit from '../components/styled/Edit'
-import Modal from '../components/Modal'
+import List from '../components/Tranche/List'
+import Layout from '../components/Layout'
 
 const Tranches = ()=>{
-    const history = useHistory()
-    const [modal, setModal] = useState(null)
-    const {loading, error, data} = useQuery(GET_TRANCHES, {
-        onError(){showMessage('Ошибка сервера!')}
-    })
     const [message, showMessage] = useState(false);
     return (
-    <>
-        <Title>Поступления</Title>
-        {message?<Message message={message} error close={()=>{showMessage(false)}}/>:null}
-        {loading?'Загрузка...':error?null:
-            <>
-                {modal && <Modal 
-                            onClose={()=>{setModal(null)}} 
-                            onCancel={()=>{setModal(null)}}
-                            onDelete={()=>{}}
-                            >
-                    {modal}
-                </Modal>}
-                <TranchAddForm/>
-                {data.tranches.length===0?'Пока нет ни одного поступления':data.tranches.map((tranche)=>(
-                    <Paper key={tranche._id}>
-                        <Time>{formatTime(tranche.date)} </Time>
-                            <Money>{tranche.amount?tranche.amount+' руб':'Сумма не указана'} </Money>
-                        <Resource>
-                            {tranche.resource && tranche.resource.name?
-                                <Link onClick={() => {history.push(`/resource/${tranche.resource._id}`)}}>{tranche.resource.name} </Link>
-                                :null}
-                        </Resource>
-                        <Payer>{tranche.payer?tranche.payer.name: 'Контрагент не указан'}</Payer>
-                        <Edit/>
-                        <Remove onClick={()=>{setModal('Вы действительно хотите удалить?')}}/>
-                    </Paper>
-                ))}
-            </>
-        }  
-    </>
+            <Layout>
+                <div className="content-panel" style={{marginTop:'15px'}}>
+                    <h4>
+                        <i class="fa fa-angle-right"></i> Поступления
+                    </h4>
+                    <table class="table table-striped table-advance table-hover">
+                        <thead>
+                        <tr>
+                            <th><i class=" fa fa-calendar"></i> Дата</th>
+                            <th><i class="fa fa-address-card-o"></i> Компания</th>
+                            <th class="hidden-phone"><i class="fa fa-bookmark-o"></i> Ресурс</th>
+                            <th><i class="fa fa-credit-card"></i> Сумма</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <CreateForm showMessage={showMessage}/>
+                            <List/>
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* {message?<Message message={message} error close={()=>{showMessage(false)}}/>:null} */}
+            </Layout>
+
 )}
 
 export default Tranches

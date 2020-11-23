@@ -16,8 +16,20 @@ module.exports = {
 			_id: {type: GraphQLString}
 		},
 		resolve: async (root, {_id}, req)=>{
+			console.log("Payload", req.payload)
 			const user = await User.findOne({_id});
         	return user;
         }
 	},
+	auth:{
+		type: UserType,
+		resolve: async (root, {_id}, req)=>{
+			// console.log("Payload", req.payload)
+			if(req.payload && req.payload._id){
+				const user = await User.findOne({_id: req.payload._id});
+				return user;
+			}
+			else return null;
+        }
+	}
 }

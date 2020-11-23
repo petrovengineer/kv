@@ -5,15 +5,17 @@ import {
 
 const StyledDrawer = styled.div`
     position: fixed;
-    background-color: DARKSLATEBLUE;
+    background-color: #463973;
     width: 300px;
     height: 100%;
 `
 
-const StyledLink = styled(Link)`
+const StyledDrawerLink = styled(Link)`
     text-decoration: none;
     color: white;
     font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
     cursor: pointer;
     display: block;
     :hover{
@@ -25,12 +27,12 @@ const Drawer = ()=>{
     return (
         <StyledDrawer>
             <div style={{margin:"20px"}}>
-                <StyledLink to="/">Ресурсы</StyledLink>
-                <StyledLink to="/tranches">Поступления</StyledLink>
-                <StyledLink to="/wastes">Затраты</StyledLink>
-                <StyledLink to="/cashwastes">Затраты (нал)</StyledLink>
-                <StyledLink to="/users">Пользователи</StyledLink>
-                <StyledLink to="/payers">Контрагенты</StyledLink>
+                <StyledDrawerLink to="/">Ресурсы</StyledDrawerLink>
+                <StyledDrawerLink to="/tranches">Поступления</StyledDrawerLink>
+                <StyledDrawerLink to="/wastes">Затраты</StyledDrawerLink>
+                <StyledDrawerLink to="/cashwastes">Затраты (нал)</StyledDrawerLink>
+                <StyledDrawerLink to="/users">Пользователи</StyledDrawerLink>
+                <StyledDrawerLink to="/payers">Контрагенты</StyledDrawerLink>
             </div>
         </StyledDrawer>
     )

@@ -6,7 +6,7 @@ import {GET_RESOURCES, CREATE_RESOURCE} from '../queries/Resource'
 import {useHistory} from 'react-router-dom';
 import Message from '../components/Message'
 import Paper from '../components/styled/Paper'
-import Title from '../components/Title'
+import Title from '../components/styled/Title'
 
 const Resources = ()=>{
     // const [loadingCreate, setLoadingCreate] = useState(false)

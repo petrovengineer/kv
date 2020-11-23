@@ -5,8 +5,8 @@ const StyledClose = styled.div`
     cursor: pointer;
     right: 10px;
     top: 12px;
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     opacity: 0.5;
     :hover {
     opacity: 1;
@@ -15,7 +15,7 @@ const StyledClose = styled.div`
     position: absolute;
     left: 9px;
     content: ' ';
-    height: 20px;
+    height: 16px;
     width: 2px;
     background-color: white;
     }
