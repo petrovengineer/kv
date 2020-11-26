@@ -60,7 +60,7 @@ app.post('/login', async (req, res)=>{
     const {email, password} = req.body;
     const User = require('mongoose').model('User')
     let user = await User.findOne({email});
-    console.log("USER",user)
+    // console.log("USER",user)
     if(!user){return res.sendStatus(401)}
     if(!user.validatePassword(password)){return res.sendStatus(401)}
     return res.send(user.toAuthJSON());
@@ -68,7 +68,7 @@ app.post('/login', async (req, res)=>{
 
 app.use('/graphql', 
     auth.required,
-    (req,res, next)=>{console.log("REQ ",req.headers); next();},
+    // (req,res, next)=>{console.log("REQ ",req.body); next();},
     graphqlHTTP({
       schema: Schema,
       graphiql: true,

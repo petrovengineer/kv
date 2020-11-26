@@ -43,7 +43,7 @@ mutation UpdateTranche($_id: String, $amount:Int, $payer: TranchePayerInputType,
   }
 }
 
-{"_id":"5fb6ec080a064e1d040f5884","amount":5000, "resource":{"_id":"5fad2935e7e2ad0be0e2eb92", "name":"Вентиляция шкафов"}}
+{"_id":"5fbc00182236681a6c65eaa5","amount":5000, "resource":{"_id":"5fad2935e7e2ad0be0e2eb92", "name":"Вентиляция шкафов"}}
 
 ###
 POST http://localhost:3000/graphql

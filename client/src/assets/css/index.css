@@ -100,3 +100,16 @@ ul.top-menu > li > .logout {
   background: #4ECDC4;
   margin-top: 15px;
 }
+
+.modal-header {
+  background: #4ECDC4;
+  align-items: center;
+}
+
+.modal-header h4.modal-title {
+  font-weight: 300;
+  font-family: 'Open Sans',sans-serif;
+}
+.modal-title {
+  color: white;
+}

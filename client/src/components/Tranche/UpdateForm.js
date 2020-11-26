@@ -21,17 +21,19 @@ const UpdateForm = ({tranche, index, onClose})=>{
 
     const [updateTranche, {loading: loadingUpdate}] = useMutation(UPDATE_TRANCHE, 
         {
-            refetchQueries:[{query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}}],
+            // refetchQueries:[{query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}}],
             update(cache, {data: {updateTranche}}){
-                if(updateTranche){
-                    const {tranches} = cache.readQuery({query: GET_TRANCHES})
-                    const newTranches = [...tranches];
-                    newTranches[index] = updateTranche;
-                    console.log(newTranches)
-                    // cache.writeQuery({query: GET_TRANCHES, data: {tranches: newTranches}})
-                }else{}
+                onClose()
+                // if(updateTranche){
+                //     const {tranches} = cache.readQuery({query: GET_TRANCHES})
+                //     const newTranches = [...tranches];
+                //     newTranches[index] = updateTranche;
+                //     console.log(newTranches)
+                //     cache.writeQuery({query: GET_TRANCHES, data: {tranches: newTranches}})
+                // }else{}
             },
-            onError(){
+            onError(e){
+                console.log(e)
                 setMessage({text:'Ошибка сервера!', error: true})
             }
     })
@@ -56,7 +58,21 @@ const UpdateForm = ({tranche, index, onClose})=>{
         setResource({_id:resource.value, name: resource.label})
     }
     const handleUpdateTranche = ()=>{
-        updateTranche({variables:{ _id: tranche._id, amount: Number.parseInt(amount), payer, resource, date:startDate.toISOString()}})
+        const variables = {}
+        variables._id = tranche._id;
+        if(amount){variables.amount = Number.parseInt(amount)}
+        if(payer._id && payer.name){
+            variables.payer = {};
+            variables.payer._id=payer._id;
+            variables.payer.name=payer.name;
+        }
+        if(resource._id && resource.name){
+            variables.resource = {};
+            variables.resource._id=resource._id;
+            variables.resource.name=resource.name;
+        }
+        variables.date = startDate.toISOString();
+        updateTranche({variables})
     }
 
     return (
