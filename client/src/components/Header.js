@@ -9,11 +9,11 @@ export default ()=>{
     }
     return (
     <Header>
-      <header class="header black-bg">
-          <div class="sidebar-toggle-box">
-            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      <header className="header black-bg">
+          <div className="sidebar-toggle-box">
+            <div className="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
           </div>
-            <a class="btn btn-primary" style={{marginTop:'15px', float:'right'}}
+            <a className="btn btn-primary" style={{marginTop:'15px', float:'right'}}
               onClick={handleExit}
             >Выйти</a>
         </header>

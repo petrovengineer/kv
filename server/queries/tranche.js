@@ -17,8 +17,15 @@ module.exports = {
 		},
 		resolve: async (root, {filter}, req)=>{
             try{
+				let localFilter = {}
+				if(filter && filter.resource && filter.resource._id){localFilter['resource._id']=filter.resource._id}
 				const tranches = await Tranche.find(
-					filter?{'resource._id':filter.resource?filter.resource._id:null}:{}
+					localFilter
+					// filter?
+						// {
+							// 'resource._id':filter.resource?filter.resource._id:null
+						// }
+						// :{}
 					// filter.resource && filter.resource._id?
 					// 	{'resource._id':filter.resource._id}
 					// 	:{}

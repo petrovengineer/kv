@@ -68,7 +68,7 @@ app.post('/login', async (req, res)=>{
 
 app.use('/graphql', 
     auth.required,
-    // (req,res, next)=>{console.log("REQ ",req.body); next();},
+    (req,res, next)=>{console.log("REQ ",req.body); next();},
     graphqlHTTP({
       schema: Schema,
       graphiql: true,

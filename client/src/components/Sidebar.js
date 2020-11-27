@@ -25,26 +25,26 @@ export default ()=>{
                             <img className="rounded-circle" src={photo} width="80"></img>
                         </a>
                     </p>
-                    <h5 class="centered">Sam Soffes</h5>
+                    <h5 className="centered">Sam Soffes</h5>
                     <li className="sub-menu mt">
-                        <a href="javascript:;" onClick={()=>{handleOpen('fin')}} className="mt">Финансы</a>
+                        <a onClick={()=>{handleOpen('fin')}} className="mt">Финансы</a>
                         <ul className="sub" style={{display: opened.indexOf('fin')===-1?'none':'block'}}>
-                            <li className={pathname==='/' && 'active'}>
+                            <li className={pathname==='/'? 'active':''}>
                                 <Link to="/">Ресурсы</Link>
                             </li>
-                            <li className={pathname==='/tranches' && 'active'}>
+                            <li className={pathname==='/tranches'?'active':''}>
                                 <Link to="/tranches">Поступления</Link>
                             </li>
-                            <li className={pathname==='/wastes' && 'active'}>
+                            <li className={pathname==='/wastes'?'active':''}>
                                 <Link to="/wastes">Затраты</Link>
                             </li>
-                            <li className={pathname==='/cashwastes' && 'active'}>
+                            <li className={pathname==='/cashwastes'?'active':''}>
                                 <Link to="/cashwastes">Затраты (нал)</Link>
                             </li>
-                            <li className={pathname==='/users' && 'active'}>
+                            <li className={pathname==='/users'?'active':''}>
                                 <Link to="/users">Пользователи</Link>
                             </li>
-                            <li className={pathname==='/payers' && 'active'}>
+                            <li className={pathname==='/payers'?'active':''}>
                                 <Link to="/payers">Контрагенты</Link>
                             </li>
                         </ul>

@@ -6,10 +6,13 @@ import DeleteButton from './DeleteButton'
 import {useState} from 'react'
 import Modal from '../Modal'
 import Message from '../Message'
+import FilterForm from './FilterForm'
 
 export default ()=>{
+    const [resource, setResource] = useState(null)
     const {loading, error, data} = useQuery(GET_TRANCHES, {
-        onError(){setMessage({text:'Ошибка сервера!', error: true})}
+        onError(){setMessage({text:'Ошибка сервера!', error: true})},
+        variables:{filter:{resource}}
     })
     const [deletePayload, setDeletePayload] = useState(null)
     const [message, setMessage] = useState(null)
@@ -22,20 +25,19 @@ export default ()=>{
                     </td>
                 </tr>
             :null}
-            {loading?'Загрузка...':error?null:
-                data.tranches.length===0?'Пока нет ни одного поступления':
+            <FilterForm resource={resource} setResource={setResource}/>
+            {loading?<tr><td colSpan="5">Загрузка...</td></tr>:error?null:
+                data.tranches.length===0?<tr><td colSpan="5">Пока нет ни одного поступления</td></tr>:
                 data.tranches.map((tranche, index)=>(
-                    // <AnimateGroup animation="bounce" component="tr">
                         <Tranche
                             key={tranche._id} 
                             tranche={tranche} 
                             index={index} 
                             setDeletePayload={setDeletePayload}
                         />
-                    // </AnimateGroup>
                     ))
             }
-            <AnimateOnChange>
+            {/* <AnimateOnChange> */}
                 {deletePayload?
                         <Modal 
                             onClose={()=>setDeletePayload(null)} 
@@ -50,7 +52,7 @@ export default ()=>{
                                 Вы действительно хотите удалить поступление?
                         </Modal>
                 :null}
-            </AnimateOnChange>
+            {/* </AnimateOnChange> */}
         </>
     )
 }
