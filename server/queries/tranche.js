@@ -1,13 +1,6 @@
 const {GraphQLList, GraphQLString, GraphQLInputObjectType} = require('graphql')
 const Tranche = require('mongoose').model('Tranche')
-const {TrancheType, TrancheResourceInputType} = require('../types/tranche')
-
-const TrancheFilterInputType = new GraphQLInputObjectType({
-	name: 'TrancheFilterInputType',
-	fields: ()=>({
-		resource: {type: TrancheResourceInputType}
-	})
-})
+const {TrancheType, TrancheFilterInputType} = require('../types/tranche')
 
 module.exports = {
 	tranches: {
@@ -18,21 +11,16 @@ module.exports = {
 		resolve: async (root, {filter}, req)=>{
             try{
 				let localFilter = {}
-				if(filter && filter.resource && filter.resource._id){localFilter['resource._id']=filter.resource._id}
-				const tranches = await Tranche.find(
-					localFilter
-					// filter?
-						// {
-							// 'resource._id':filter.resource?filter.resource._id:null
-						// }
-						// :{}
-					// filter.resource && filter.resource._id?
-					// 	{'resource._id':filter.resource._id}
-					// 	:{}
-					).sort({date:-1});
+				if(filter){
+					if(filter.resource && filter.resource._id){localFilter['resource._id']=filter.resource._id}
+					if(filter.payer && filter.payer._id){localFilter['payer._id']=filter.payer._id}
+					if(filter.amountFrom){localFilter['amount']={'$gte':filter.amountFrom}}
+				}
+				const tranches = await Tranche.find(localFilter).sort({date:-1});
                 return tranches;
             }
             catch(e){
+				// console.log(e)
                 throw new Error("Error connect to DB!")
             }
         }

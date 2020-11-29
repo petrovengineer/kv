@@ -4,7 +4,7 @@ const TrancheType = new GraphQLObjectType({
     name: 'TrancheType',
     fields: ()=>({
         _id: {type: new GraphQLNonNull(GraphQLString)},
-        amount: {type: GraphQLString},
+        amount: {type: GraphQLInt},
         payer: {
             type: TranchePayerType,
         },
@@ -16,6 +16,16 @@ const TrancheType = new GraphQLObjectType({
             resolve: (tranche)=>(tranche.date.toISOString())
         }
     })
+})
+
+const TrancheFilterInputType = new GraphQLInputObjectType({
+	name: 'TrancheFilterInputType',
+	fields: ()=>({
+		resource: {type: TrancheResourceInputType},
+        payer: {type: TranchePayerInputType},
+        amountFrom:{type: GraphQLInt},
+        amountTo:{type: GraphQLInt},
+	})
 })
 
 const TrancheResourceType = new GraphQLObjectType({
@@ -50,4 +60,4 @@ const TranchePayerInputType = new GraphQLInputObjectType({
     })
 })
 
-module.exports = {TrancheType, TrancheResourceInputType, TranchePayerInputType}
+module.exports = {TrancheType, TrancheResourceInputType, TranchePayerInputType, TrancheFilterInputType}

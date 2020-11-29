@@ -9,10 +9,13 @@ import Message from '../Message'
 import FilterForm from './FilterForm'
 
 export default ()=>{
-    const [resource, setResource] = useState(null)
+    const [filter, setFilter] = useState(null)
     const {loading, error, data} = useQuery(GET_TRANCHES, {
-        onError(){setMessage({text:'Ошибка сервера!', error: true})},
-        variables:{filter:{resource}}
+        onError(e){
+            console.log(e)
+            setMessage({text:'Ошибка сервера!', error: true})
+        },
+        variables:{filter}
     })
     const [deletePayload, setDeletePayload] = useState(null)
     const [message, setMessage] = useState(null)
@@ -25,7 +28,7 @@ export default ()=>{
                     </td>
                 </tr>
             :null}
-            <FilterForm resource={resource} setResource={setResource}/>
+            <FilterForm filter={filter} setFilter={setFilter}/>
             {loading?<tr><td colSpan="5">Загрузка...</td></tr>:error?null:
                 data.tranches.length===0?<tr><td colSpan="5">Пока нет ни одного поступления</td></tr>:
                 data.tranches.map((tranche, index)=>(
@@ -37,7 +40,6 @@ export default ()=>{
                         />
                     ))
             }
-            {/* <AnimateOnChange> */}
                 {deletePayload?
                         <Modal 
                             onClose={()=>setDeletePayload(null)} 
@@ -46,13 +48,13 @@ export default ()=>{
                                     setMessage={setMessage} 
                                     deletePayload={deletePayload} 
                                     setDeletePayload={setDeletePayload}
+                                    filter={filter}
                                 />
                             }
                         >
                                 Вы действительно хотите удалить поступление?
                         </Modal>
                 :null}
-            {/* </AnimateOnChange> */}
         </>
     )
 }

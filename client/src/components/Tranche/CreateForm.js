@@ -26,10 +26,15 @@ const TrancheAddForm = ()=>{
         {
             refetchQueries:[{query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}}],
             update(cache, {data: {createTranche}}){
-                const {tranches} = cache.readQuery({query: GET_TRANCHES})
-                cache.writeQuery({query: GET_TRANCHES, data: {tranches: [createTranche, ...tranches]}})
+                const {tranches} = cache.readQuery({
+                    query: GET_TRANCHES, 
+                    variables:{filter:{resource:null}}
+                })
+                console.log("TRANCHES",tranches)
+                cache.writeQuery({query: GET_TRANCHES, variables:{filter:{resource:null}}, data: {tranches: [createTranche, ...tranches]}})
             },
-            onError(){
+            onError(e){
+                console.log(e)
                 setMessage({text:'Ошибка сервера!', error: true})
             }
     })
