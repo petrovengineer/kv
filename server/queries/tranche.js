@@ -15,6 +15,7 @@ module.exports = {
 					if(filter.resource && filter.resource._id){localFilter['resource._id']=filter.resource._id}
 					if(filter.payer && filter.payer._id){localFilter['payer._id']=filter.payer._id}
 					if(filter.amountFrom){localFilter['amount']={'$gte':filter.amountFrom}}
+					if(filter.amountTo){localFilter['amount']={'$lte':filter.amountTo}}
 				}
 				const tranches = await Tranche.find(localFilter).sort({date:-1});
                 return tranches;
