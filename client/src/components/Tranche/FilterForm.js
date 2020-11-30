@@ -37,13 +37,20 @@ const FilterForm = ({filter, setFilter})=>{
     }, [payerData])
 
     useEffect(()=>{
-        console.log("usEFFECT",amountFrom)
         timerId.current = setTimeout(function(){
            let newFilter = filter?{...filter}:{}
            newFilter.amountFrom = amountFrom;
            setFilter(newFilter)
        }, 2000)
     },[amountFrom])
+
+    useEffect(()=>{
+        timerIdTo.current = setTimeout(function(){
+           let newFilter = filter?{...filter}:{}
+           newFilter.amountTo = amountTo;
+           setFilter(newFilter)
+       }, 2000)
+    },[amountTo])
 
     const handleChangePayer = (payer)=>{
         let newFilter = filter?{...filter}:{}
@@ -71,15 +78,13 @@ const FilterForm = ({filter, setFilter})=>{
         let numbers = /^[0-9]+$/;
         let key = e.which || e.keyCode || e.charCode;
         let value = amountToRef.current.value;
-        if(value.match(numbers) || key==8){
-            clearTimeout(timerIdTo.current)
-            setAmountTo(Number.parseInt(value))
-            timerIdTo.current = setTimeout(()=>{
-                let newFilter = filter?{...filter}:{}
-                newFilter.amountTo = amountTo;
-                setFilter(newFilter)
-            }, 3000)
+        if(value.length==0){
+            setAmountTo(0)
+        }else if(value.match(numbers) || key==8){
+            value = Number.parseInt(value)
+            setAmountTo(value)
         }
+        clearTimeout(timerId.current)
     }
     return (
         <>
