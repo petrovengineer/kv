@@ -14,14 +14,19 @@ module.exports = {
 				if(filter){
 					if(filter.resource && filter.resource._id){localFilter['resource._id']=filter.resource._id}
 					if(filter.payer && filter.payer._id){localFilter['payer._id']=filter.payer._id}
-					if(filter.amountFrom){localFilter['amount']={'$gte':filter.amountFrom}}
-					if(filter.amountTo){localFilter['amount']={'$lte':filter.amountTo}}
+					let amount = {}
+					if(filter.amountFrom){amount['$gte'] = filter.amountFrom}
+					if(filter.amountTo){amount['$lte'] = filter.amountTo}
+					if(Object.keys(amount).length!==0){
+						localFilter['$or'] =[{'amount':amount},{'amount':{'$eq':null}}];
+					}
+					console.log(localFilter)
 				}
 				const tranches = await Tranche.find(localFilter).sort({date:-1});
                 return tranches;
             }
             catch(e){
-				// console.log(e)
+				console.log(e)
                 throw new Error("Error connect to DB!")
             }
         }
