@@ -3,13 +3,15 @@ import { useQuery} from '@apollo/client'
 import {GET_TRANCHES} from '../../queries/Tranche'
 import {AnimateGroup, AnimateOnChange} from 'react-animation'
 import DeleteButton from './DeleteButton'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Modal from '../Modal'
 import Message from '../Message'
+import CreateForm from './CreateForm'
 import FilterForm from './FilterForm'
 
 export default ()=>{
-    const [filter, setFilter] = useState(null)
+    const defaultFilter = {amountFrom:0, amountTo:1000000, resource:null, payer:null};
+    const [filter, setFilter] = useState(defaultFilter)
     const {loading, error, data} = useQuery(GET_TRANCHES, {
         onError(e){
             console.log(e)
@@ -19,6 +21,9 @@ export default ()=>{
     })
     const [deletePayload, setDeletePayload] = useState(null)
     const [message, setMessage] = useState(null)
+    useEffect(()=>{
+        console.log("FILTER ROOT", filter)
+    },[filter])
     return (    
         <>
             {message?
@@ -28,7 +33,8 @@ export default ()=>{
                     </td>
                 </tr>
             :null}
-            <FilterForm filter={filter} setFilter={setFilter}/>
+            <CreateForm filter={filter} setFilter={setFilter} defaultFilter={defaultFilter}/>
+            <FilterForm filter={filter} setFilter={setFilter} defaultFilter={defaultFilter}/>
             {loading?<tr><td colSpan="5">Загрузка...</td></tr>:error?null:
                 data.tranches.length===0?<tr><td colSpan="5">Пока нет ни одного поступления</td></tr>:
                 data.tranches.map((tranche, index)=>(
@@ -37,6 +43,7 @@ export default ()=>{
                             tranche={tranche} 
                             index={index} 
                             setDeletePayload={setDeletePayload}
+                            filter = {filter}
                         />
                     ))
             }

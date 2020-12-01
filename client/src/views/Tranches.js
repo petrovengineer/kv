@@ -1,7 +1,6 @@
 import {useState} from 'react'
 import Header from '../components/styled/Header'
 import Title from '../components/styled/Title'
-import CreateForm from '../components/Tranche/CreateForm'
 import Message from '../components/Message'
 import List from '../components/Tranche/List'
 import Layout from '../components/Layout'
@@ -14,7 +13,7 @@ const Tranches = ()=>{
                     <h4>
                         <i className="fa fa-angle-right"></i> Поступления
                     </h4>
-                    <table className="table table-striped table-advance table-hover">
+                    <table className="table table-advance table-hover">
                         <thead>
                             <tr>
                                 <th><i className=" fa fa-calendar"></i> Дата</th>
@@ -25,7 +24,6 @@ const Tranches = ()=>{
                             </tr>
                         </thead>
                         <tbody>
-                            <CreateForm showMessage={showMessage}/>
                             <List/>
                         </tbody>
                     </table>

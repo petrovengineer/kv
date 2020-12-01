@@ -11,7 +11,7 @@ import {CREATE_TRANCHE, GET_TRANCHES} from '../../queries/Tranche'
 import Message from '../Message'
 import {AnimateOnChange} from 'react-animation'
 
-const TrancheAddForm = ()=>{
+const TrancheAddForm = ({filter, setFilter, defaultFilter})=>{
     const [startDate, setStartDate] = useState(new Date())
     const [options, setOptions] = useState([])
     const [resourceOptions, setResourceOptions] = useState([])
@@ -24,14 +24,16 @@ const TrancheAddForm = ()=>{
 
     const [createTranche, {loading: loadingCreate}] = useMutation(CREATE_TRANCHE, 
         {
-            refetchQueries:[{query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}}],
+            // refetchQueries:[
+            //     {query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}},
+            // ],
             update(cache, {data: {createTranche}}){
-                const {tranches} = cache.readQuery({
-                    query: GET_TRANCHES, 
-                    variables:{filter:{resource:null}}
-                })
-                console.log("TRANCHES",tranches)
-                cache.writeQuery({query: GET_TRANCHES, variables:{filter:{resource:null}}, data: {tranches: [createTranche, ...tranches]}})
+                // let newFilter = {...defaultFilter};
+                // newFilter.resource = resource;
+                // newFilter.payer = payer;
+                // const data = cache.readQuery({query: GET_TRANCHES, variables:{filter}})
+                cache.evict({fieldName: "tranches",broadcast: false,});
+                // data && cache.writeQuery({query: GET_TRANCHES, variables:{filter}, data: {tranches: [createTranche, ...data.tranches]}})
             },
             onError(e){
                 console.log(e)

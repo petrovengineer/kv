@@ -13,7 +13,7 @@ export default ({deletePayload, setDeletePayload, setMessage, filter})=>{
                     const newTranches = [...tranches];
                     newTranches.splice(index, 1);
                     cache.evict({fieldName: "tranches",broadcast: false,});
-                    cache.writeQuery({query: GET_TRANCHES, data: {tranches: newTranches}})
+                    cache.writeQuery({query: GET_TRANCHES, variables:{filter}, data: {tranches: newTranches}})
                     setDeletePayload(null)
                 }
                 else{

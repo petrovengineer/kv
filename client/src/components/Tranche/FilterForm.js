@@ -8,22 +8,30 @@ import {GET_RESOURCES} from '../../queries/Resource'
 import {UPDATE_TRANCHE, GET_TRANCHES} from '../../queries/Tranche'
 import Message from '../Message'
 
-const FilterForm = ({filter, setFilter})=>{
+const FilterForm = ({filter, setFilter, defaultFilter})=>{
     // const [startDate, setStartDate] = useState(new Date(tranche.date))
-    let timerId = useRef(null);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(new Date());
+    let timerIdFrom = useRef(null);
     let timerIdTo = useRef(null);
     let amountFromRef = useRef(null);
     let amountToRef = useRef(null);
-    const [amountFrom, setAmountFrom] = useState(filter && filter.amountFrom?filter.amountFrom:0)
-    const [amountTo, setAmountTo] = useState(filter && filter.amountFrom?filter.amountTo:1000000)
+    const [amountFrom, setAmountFrom] = useState(filter.amountFrom)
+    const [amountTo, setAmountTo] = useState(filter.amountTo)
     const [payerOptions, setPayerOptions] = useState([])
     const [resourceOptions, setResourceOptions] = useState([])
     const {loading: payerLoading, error: payerError, data: payerData} = useQuery(GET_PAYERS)
     const {loading: resourcesLoading, error: resourcesError, data: resourcesData} = useQuery(GET_RESOURCES)
-    // const [payer, setPayer] = useState(tranche.payer)
-    // const [resource, setResource] = useState(tranche.resource)
-    // const [amount, setAmount] = useState(tranche.amount?tranche.amount:'')
     const [message, setMessage] = useState(null)
+ 
+    useEffect(()=>{
+        console.log("DEBUG", filter)
+        let inputFrom = amountFromRef.current;
+        inputFrom.value = filter.amountFrom;
+        let inputTo = amountToRef.current;
+        inputTo.value = filter.amountTo;
+    },[filter])
+
     useEffect(()=>{
         if(!resourcesLoading && resourcesData){
             setResourceOptions([...resourcesData.resources.map(r=>({value:r._id, label:r.name}))]);
@@ -36,22 +44,6 @@ const FilterForm = ({filter, setFilter})=>{
         }
     }, [payerData])
 
-    useEffect(()=>{
-        timerId.current = setTimeout(function(){
-           let newFilter = filter?{...filter}:{}
-           newFilter.amountFrom = amountFrom;
-           setFilter(newFilter)
-       }, 2000)
-    },[amountFrom])
-
-    useEffect(()=>{
-        timerIdTo.current = setTimeout(function(){
-           let newFilter = filter?{...filter}:{}
-           newFilter.amountTo = amountTo;
-           setFilter(newFilter)
-       }, 2000)
-    },[amountTo])
-
     const handleChangePayer = (payer)=>{
         let newFilter = filter?{...filter}:{}
         newFilter.payer = {_id:payer.value, name: payer.label}
@@ -62,43 +54,90 @@ const FilterForm = ({filter, setFilter})=>{
         newFilter.resource = {_id:resource.value, name: resource.label}
         setFilter(newFilter)
     }
+
     const handleChangeAmountFrom = (e)=>{
+        clearTimeout(timerIdFrom.current)
         var numbers = /^[0-9]+$/;
         let key = e.which || e.keyCode || e.charCode;
-        let value = amountFromRef.current.value;
-        if(value.length==0){
-            setAmountFrom(0)
-        }else if(value.match(numbers) || key==8){
-            value = Number.parseInt(value)
-            setAmountFrom(value)
+        let input = amountFromRef.current;
+        if(input.value.length==0){
+            input.value = '0';
         }
-        clearTimeout(timerId.current)
+        let newValue = Number.parseInt(input.value)
+        input.value = newValue;
+        if(input.value.match(numbers) || key==8){
+            timerIdFrom.current = setTimeout(function(){
+                let newFilter = filter?{...filter}:{}
+                newFilter.amountFrom = newValue;
+                setFilter(newFilter)
+            }, 2000)
+        }
     }
+    
     const handleChangeAmountTo = (e)=>{
-        let numbers = /^[0-9]+$/;
+        clearTimeout(timerIdTo.current)
+        var numbers = /^[0-9]+$/;
         let key = e.which || e.keyCode || e.charCode;
-        let value = amountToRef.current.value;
-        if(value.length==0){
-            setAmountTo(0)
-        }else if(value.match(numbers) || key==8){
-            value = Number.parseInt(value)
-            setAmountTo(value)
+        let input = amountToRef.current;
+        if(input.value.length==0){
+            input.value = '0';
         }
-        clearTimeout(timerId.current)
+        let newValue = Number.parseInt(input.value)
+        input.value = newValue;
+        if(input.value.match(numbers) || key==8){
+            timerIdTo.current = setTimeout(function(){
+                let newFilter = filter?{...filter}:{}
+                newFilter.amountTo = newValue;
+                setFilter(newFilter)
+            }, 2000)
+        }
     }
+
+    const onChangeDate = dates => {
+        const [start, end] = dates;
+        setStartDate(start);
+        setEndDate(end);
+      };
+
     return (
         <>
         <tr>
-            {/* <td>
-                <DatePicker 
-                    selected={startDate} 
-                    onChange={date => setStartDate(date)} 
-                    dateFormat="dd.MM.yyyy"
-                    customInput={
-                            <input type="text" className="form-control"></input>
-                    }
-                />
-            </td> */}
+            <td style={{padding:'0'}}>
+                <table className="table-borderless">
+                    <tr>
+                        <td>C</td>
+                        <td><DatePicker 
+                                selected={startDate} 
+                                onChange={date => setStartDate(date)} 
+                                startDate={startDate}
+                                endDate={endDate}
+                                selectsStart
+                                dateFormat="dd.MM.yyyy"
+                                customInput={
+                                        <input type="text" className="form-control"></input>
+                                }
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>По</td>
+                        <td>
+                            <DatePicker 
+                                selected={endDate} 
+                                onChange={date => setEndDate(date)} 
+                                startDate={startDate}
+                                endDate={endDate}
+                                minDate={startDate}
+                                selectsEnd
+                                dateFormat="dd.MM.yyyy"
+                                customInput={
+                                        <input type="text" className="form-control"></input>
+                                }
+                            />
+                        </td>
+                    </tr>
+                </table>
+            </td>
             <td>
                 <Dropdown 
                     options={payerOptions} 
@@ -117,30 +156,43 @@ const FilterForm = ({filter, setFilter})=>{
                     value={filter && filter.resource && filter.resource._id?{value:filter.resource._id, label: filter.resource.name}:null}
                 />
             </td>
-            <td style={{display:'flex', alignItems:'center'}}>
-                От: <input
-                    type="text"
-                    size="10"
-                    ref={amountFromRef}
-                    style={{paddingRight:'5px'}}
-                    className="form-control" 
-                    placeholder = "Сумма" 
-                    onChange = {handleChangeAmountFrom}
-                    value = {amountFrom}
-                />
-
-                До: <input
-                    type="text"
-                    style={{paddingRight:'5px'}}
-                    ref={amountToRef}
-                    className="form-control" 
-                    placeholder = "Сумма" 
-                    onChange = {handleChangeAmountTo}
-                    value = {amountTo}
-                />
+            <td style={{padding:'0'}}>
+                <table className="table-borderless">
+                    <tr>
+                        <td>
+                            От
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                size="10"
+                                ref={amountFromRef}
+                                style={{paddingRight:'5px'}}
+                                className="form-control" 
+                                placeholder = "Сумма" 
+                                onChange = {handleChangeAmountFrom}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            До
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                style={{paddingRight:'5px'}}
+                                ref={amountToRef}
+                                className="form-control" 
+                                placeholder = "Сумма" 
+                                onChange = {handleChangeAmountTo}
+                            />
+                        </td>
+                    </tr>
+                </table>
             </td>
             <td>
-                <Button onClick={()=>{setFilter(null)}} danger>Сбросить</Button>
+                <Button onClick={()=>{setFilter(defaultFilter)}} danger>Сбросить</Button>
             </td>
         </tr>
         {message?

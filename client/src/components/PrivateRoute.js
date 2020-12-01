@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       }
     })
     useEffect(()=>{
-      console.log("ER", data)
+      // console.log("ER", data)
     }, [data])
     return(
     <Route {...rest} render={(props) => (

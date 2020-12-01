@@ -8,7 +8,7 @@ import {GET_RESOURCES} from '../../queries/Resource'
 import {UPDATE_TRANCHE, GET_TRANCHES} from '../../queries/Tranche'
 import Message from '../Message'
 
-const UpdateForm = ({tranche, index, onClose})=>{
+const UpdateForm = ({tranche, index, onClose, filter})=>{
     const [startDate, setStartDate] = useState(new Date(tranche.date))
     const [options, setOptions] = useState([])
     const [resourceOptions, setResourceOptions] = useState([])
@@ -22,6 +22,7 @@ const UpdateForm = ({tranche, index, onClose})=>{
     const [updateTranche, {loading: loadingUpdate}] = useMutation(UPDATE_TRANCHE, 
         {
             // refetchQueries:[{query: GET_TRANCHES, variables:{filter:{resource:{_id: resource?resource._id:null}}}}],
+            refetchQueries:[{query: GET_TRANCHES, variables:{filter}}],
             update(cache, {data: {updateTranche}}){
                 onClose()
                 // if(updateTranche){

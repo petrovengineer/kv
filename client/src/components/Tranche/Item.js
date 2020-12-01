@@ -7,12 +7,12 @@ import {useState} from 'react'
 import { animations } from 'react-animation'
 import UpdateForm from './UpdateForm'
 
-export default ({tranche, setDeletePayload, index})=>{
+export default ({tranche, setDeletePayload, index, filter})=>{
     const history = useHistory()
     const [update, showUpdate] = useState(false)
     return (
         <>
-            {update?<UpdateForm onClose={()=>{showUpdate(false)}} tranche={tranche}/>:
+            {update?<UpdateForm onClose={()=>{showUpdate(false)}} tranche={tranche} filter={filter}/>:
                 <tr style={{animation: animations.fadeIn}} >
                     <td>
                         {formatTime(tranche.date)}

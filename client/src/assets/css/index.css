@@ -42,12 +42,12 @@ hr {
 }
 .form-control{
   height: auto;
-  padding: .175rem .75rem;
+  /* padding: .175rem .75rem; */
   padding-right: 30px;
   font-size: 1em;
 }
 .btn{
-  padding: .175rem .75rem;
+  /* padding: .175rem .75rem; */
   font-size: 1em;
 }
 .Dropdown-arrow{
